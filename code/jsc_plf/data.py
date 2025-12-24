@@ -22,12 +22,12 @@ def get_data(data_path: Path | str, n_constituents: int, ptetaphi: bool, val_siz
     scale = np.std(X_train_val.astype(np.float32), axis=(0, 1), keepdims=True)
     shift = np.mean(X_train_val.astype(np.float32), axis=(0, 1), keepdims=True)
 
+    X_train_val = (X_train_val - shift) / scale
+    X_test = (X_test - shift) / scale
+
     if ptetaphi:
         X_train_val = X_train_val[..., [5, 8, 11]]
         X_test = X_test[..., [5, 8, 11]]
-
-    X_train_val = (X_train_val - shift) / scale
-    X_test = (X_test - shift) / scale
 
     order = np.arange(len(X_train_val))
     np.random.shuffle(order)
